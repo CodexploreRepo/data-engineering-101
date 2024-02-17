@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  nytaxi_db:
+    restart: always
+    image: postgres:latest
+    container_name: nytaxi_db_cont
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - nytaxi_pg:/var/lib/postgresql/data
+    networks:
+      - nytaxi_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  nytaxi_pg:
+
+networks:
+  nytaxi_network:
+    driver: bridge

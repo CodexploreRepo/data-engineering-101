@@ -1,0 +1,6 @@
+pandas
+polars
+psycopg2
+pyarrow
+SQLAlchemy
+python-dotenv
