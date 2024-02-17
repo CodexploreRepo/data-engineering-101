@@ -9,9 +9,24 @@ from sqlalchemy import Engine, create_engine
 class DbConnector(object):
     def __init__(
         self,
+        type: str,
+        name: str,
+        user: str,
+        pw: str,
+        port: str,
     ) -> None:
-        # engine = create_engine("postgresql://root:root@localhost:5432/nytaxi")
-        pass
+        self.type = type.lower()
+        self.name = name
+        self.user = user
+        self.pw = pw
+        self.port = port
+
+    def get_engine(self) -> Engine:
+        return create_engine(self.get_conn_uri())
+
+    def get_conn_uri(self) -> str:
+        # "postgresql://root:root@localhost:5432/nytaxi"
+        return f"{self.type}://{self.user}:{self.pw}@localhost:{self.port}/{self.name}"
 
 
 class BaseIngestion(object):
@@ -34,7 +49,7 @@ class BaseIngestion(object):
 
         self._download(url, file_name)
         df = pd.read_parquet(file_name)
-        self._remove()
+        self._remove(file_name)
 
         return df
 

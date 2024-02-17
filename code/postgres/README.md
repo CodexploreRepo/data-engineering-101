@@ -35,3 +35,7 @@ nytaxi-# \d yellow_taxi_data # to get the table description
 # Indexes:
 #     "ix_yellow_taxi_data_index" btree (index)
 ```
+
+## Pytest
+
+- `cd` to the `postgres` directory and run `pytest`
