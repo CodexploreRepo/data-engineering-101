@@ -26,11 +26,11 @@ class BaseIngestion(object):
         if os.path.exists(file_name):
             subprocess.run(["rm", file_name], stdout=PIPE, stderr=PIPE)
 
-    def _get_file_name(self, url: str) -> str:
+    def _get_filename(self, url: str) -> str:
         return url.split("/")[-1]
 
     def read(self, url) -> pd.DataFrame:
-        file_name = self._get_file_name(url)
+        file_name = self._get_filename(url)
 
         self._download(url, file_name)
         df = pd.read_parquet(file_name)
