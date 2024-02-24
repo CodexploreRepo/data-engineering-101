@@ -54,5 +54,5 @@ class BaseIngestion(object):
         return df
 
     def write_to_db(self, df: pd.DataFrame, con: Engine) -> None:
-        
+
         df.to_sql(name=self.table, con=con, if_exists="append")
