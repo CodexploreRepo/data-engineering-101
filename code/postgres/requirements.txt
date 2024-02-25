@@ -1,3 +1,5 @@
+logzero
 pandas
 psycopg2
+pyarrow
 SQLAlchemy

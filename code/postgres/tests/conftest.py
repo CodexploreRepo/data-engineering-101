@@ -8,11 +8,6 @@ load_dotenv(find_dotenv())
 
 
 @pytest.fixture()
-def c_nytaxi_ingestion():
-    return BaseIngestion(table=os.environ["DB_NAME"])
-
-
-@pytest.fixture()
 def c_postgres_connector():
     return DbConnector(
         "postgresql",
@@ -21,3 +16,9 @@ def c_postgres_connector():
         os.environ["DB_PASSWORD"],
         os.environ["DB_PORT"],
     )
+
+
+@pytest.fixture()
+def c_nytaxi_ingestion(c_postgres_connector):
+    engine = c_postgres_connector.get_engine()
+    return BaseIngestion(engine)

@@ -4,10 +4,11 @@ services:
     restart: always
     image: postgres:latest
     container_name: nytaxi_db_cont
-    environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+    env_file: .env
+    # environment:
+    #   POSTGRES_USER: ${DB_USERNAME}
+    #   POSTGRES_PASSWORD: ${DB_PASSWORD}
+    #   POSTGRES_DB: ${DB_NAME}
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
@@ -19,7 +20,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+  sql_ingestor:
+    build:
+      context: .
+    image: sql_ingestion
+    container_name: sql_ingestion_cont
+    env_file: .env
+    command: --url https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-11.parquet --table yellow_taxi --db_host nytaxi_db
+    networks:
+      - nytaxi_network
+    depends_on:
+      nytaxi_db:
+        condition: service_healthy
 volumes:
   nytaxi_pg:
 
