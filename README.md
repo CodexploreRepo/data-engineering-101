@@ -4,6 +4,10 @@
 
 - [Postgres](./docs/db/postgres.md)
 
+## IaC
+
+- [Terraform]
+
 ## Appendix
 
 - [Installation](./docs/appendix/installation.md)
